@@ -1,11 +1,11 @@
 #include "main.h"
 /**
- * print_exclusive_string - print exclusuives string
+ * printf_exclusive_string - print exclusuives string
  * @val: argumen t
  * Return: the length of a string
  */
 
-int print_exclusive_string(va_list val)
+int printf_exclusive_string(va_list val)
 {
 	char *s;
 	int i, len = 0;
@@ -27,7 +27,7 @@ int print_exclusive_string(va_list val)
 				_putchar('0');
 				len++;
 			}
-			len = len + print_HEX_aux(cast);
+			len = len + printf_HEX_aux(cast);
 		}
 		else
 		{
@@ -41,11 +41,11 @@ int print_exclusive_string(va_list val)
 #include "main.h"
 
 /**
- * print_bin - prints binary number
+ * printf_bin - prints binary number
  * @val: arguments
  * Return: 1 (always)
  */
-int print_bin(va_list val)
+int printf_bin(va_list val)
 {
 	int flag = 0;
 	int cont = 0;
@@ -76,11 +76,11 @@ int print_bin(va_list val)
 #include "main.h"
 
 /**
- * print_HEX_aux - prints a hexgecimal number
+ * printf_HEX_aux - prints a hexgecimal number
  * @num: number to be printed
  * Return: counter
  */
-int print_HEX_aux(unsigned int num)
+int printf_HEX_aux(unsigned int num)
 {
 	int i;
 	int *array;
@@ -113,11 +113,11 @@ int print_HEX_aux(unsigned int num)
 #include "main.h"
 
 /**
- * print_HEX - prints a hexgecimal number
+ * printf_HEX - prints a hexgecimal number
  * @val: argument
  * Return: counter
  */
-int print_HEX(va_list val)
+int printf_HEX(va_list val)
 {
 	int i;
 	int *array;
@@ -150,10 +150,10 @@ int print_HEX(va_list val)
 
 #include "main.h"
 /**
- * print_37 - prints the char 37
+ * printf_37 - prints the char 37
  * Return: 1 (always)
  */
-int print_37(void)
+int printf_37(void)
 {
 	_putchar(37);
 	return (1);
