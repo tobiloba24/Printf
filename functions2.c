@@ -38,8 +38,6 @@ int printf_exclusive_string(va_list val)
 	return (len);
 }
 
-#include "main.h"
-
 /**
  * printf_bin - prints binary number
  * @val: arguments
@@ -72,8 +70,6 @@ int printf_bin(va_list val)
 	}
 	return (cont);
 }
-
-#include "main.h"
 
 /**
  * printf_HEX_aux - prints a hexgecimal number
@@ -109,8 +105,6 @@ int printf_HEX_aux(unsigned int num)
 	free(array);
 	return (counter);
 }
-
-#include "main.h"
 
 /**
  * printf_HEX - prints a hexgecimal number
@@ -148,7 +142,6 @@ int printf_HEX(va_list val)
 	return (counter);
 }
 
-#include "main.h"
 /**
  * printf_37 - prints the char 37
  * Return: 1 (always)
