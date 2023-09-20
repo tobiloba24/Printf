@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * print_pointer - prints an hexgecimal number
+ * printf_pointer - prints an hexgecimal number
  * @val: arguments
  * Return: counter
  */
-int print_pointer(va_list val)
+int printf_pointer(va_list val)
 {
 	void *p;
 	char *s = "(nil)";
@@ -26,18 +26,16 @@ int print_pointer(va_list val)
 	a = (unsigned long int)p;
 	_putchar('0');
 	_putchar('x');
-	b = print_hex_aux(a);
+	b = printf_hex_aux(a);
 	return (b + 2);
 }
 
-#include "main.h"
-
 /**
- * print_oct - prints an octal number
+ * printf_oct - prints an octal number
  * @val: arguments
  * Return: counter
  */
-int print_oct(va_list val)
+int printf_oct(va_list val)
 {
 	int i;
 	int *array;
@@ -66,13 +64,12 @@ int print_oct(va_list val)
 	return (counter);
 }
 
-#include "main.h"
 /**
- * print_int - prints integer
+ * printf_int - prints integer
  * @args: argument to be printed
  * Return: number of characters to be printed
  */
-int print_int(va_list args)
+int printf_int(va_list args)
 {
 	int n = va_arg(args, int);
 	int num, last = n % 10, digit, exp = 1;
@@ -112,12 +109,12 @@ int print_int(va_list args)
 }
 
 /**
- * print_dec - prints a decimal
+ * printf_dec - prints a decimal
  * @args: argument to print
  * Return: number of characters to be printed
  */
 
-int print_dec(va_list args)
+int printf_dec(va_list args)
 {
 	int n = va_arg(args, int);
 	int num, last = n % 10, digit;
@@ -157,14 +154,12 @@ int print_dec(va_list args)
 	return (i);
 }
 
-#include "main.h"
-
 /**
- * print_hex_aux - prints a hexgecimal number
+ * printf_hex_aux - prints a hexgecimal number
  * @num: arguments
  * Return: counter
  */
-int print_hex_aux(unsigned long int num)
+int printf_hex_aux(unsigned long int num)
 {
 	long int i;
 	long int *array;
@@ -194,14 +189,12 @@ int print_hex_aux(unsigned long int num)
 	return (counter);
 }
 
-#include "main.h"
-
 /**
- * print_hex - prints a hexgecimal number
+ * printf_hex - prints a hexgecimal number
  * @val: arguments
  * Return: counter
  */
-int print_hex(va_list val)
+int printf_hex(va_list val)
 {
 	int i;
 	int *array;
