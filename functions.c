@@ -1,10 +1,10 @@
 #include "main.h"
 /**
- * print_unsigned - prints integer
+ * printf_unsigned - prints integer
  * @args: argument to print
  * Return: number of characters printed
  */
-int print_unsigned(va_list args)
+int printf_unsigned(va_list args)
 {
 	unsigned int n = va_arg(args, unsigned int);
 	int num, last = n % 10, digit, exp = 1;
@@ -43,15 +43,13 @@ int print_unsigned(va_list args)
 	return (i);
 }
 
-
-#include "main.h"
 /**
- * print_string - print a string.
+ * printf_string - print a string.
  * @val: argumen t.
  * Return: the length of the string.
  */
 
-int print_string(va_list val)
+int printf_string(va_list val)
 {
 	char *s;
 	int i, len;
@@ -74,7 +72,6 @@ int print_string(va_list val)
 	}
 }
 
-#include "main.h"
 /**
  * _strlen -  the lenght of a string.
  * @s: Type char pointer
@@ -103,15 +100,13 @@ int _strlenc(const char *s)
 	return (c);
 }
 
-#include "main.h"
-
 /**
- * print_srev -  prints a str in reverse
+ * printf_srev -  prints a str in reverse
  * @args: type struct va_arg
  *
  * Return: string
  */
-int print_srev(va_list args)
+int printf_srev(va_list args)
 {
 
 	char *s = va_arg(args, char*);
@@ -127,14 +122,13 @@ int print_srev(va_list args)
 	return (j);
 }
 
-#include "main.h"
 /**
- * print_rot13 - print str to ROT13
+ * printf_rot13 - print str to ROT13
  * @args: type struct va_arg
  * Return: counter
  *
  */
-int print_rot13(va_list args)
+int printf_rot13(va_list args)
 {
 	int i, j, counter = 0;
 	int k = 0;
