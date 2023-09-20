@@ -107,7 +107,7 @@ int _strlenc(const char *s)
 
 /**
  * print_srev -  prints a str in reverse
- * @args: type struct va_arg 
+ * @args: type struct va_arg
  *
  * Return: string
  */
