@@ -1,202 +1,166 @@
 #include "main.h"
-
-/** PRINT CHAR **/
-
 /**
- * print_char - To Prints a char
- * @types: List of arguments
- * @buffer: Buffer array for handling print
- * @flags: Calculates active flags
- * @width: The Width
- * @precision: Precision specifier
- * @size: Size specifier
- * Return: Number of char
+ * print_unsigned - prints integer
+ * @args: argument to print
+ * Return: number of characters printed
  */
-
-int print_char(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_unsigned(va_list args)
 {
-	char c = va_arg(types, int);
+	unsigned int n = va_arg(args, unsigned int);
+	int num, last = n % 10, digit, exp = 1;
+	int  i = 1;
 
-	return (handle_write_char(c, buffer, flags, width, precision, size));
-}
+	n = n / 10;
+	num = n;
 
-
-/** PRINT A STRING **/
-
-/**
- * print_string - To Prints a string
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of char
- */
-
-int print_string(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	int length = 0, i;
-	char *str = va_arg(types, char *);
-
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	if (str == NULL)
+	if (last < 0)
 	{
-		str = "(null)";
-		if (precision >= 6)
-			str = "      ";
+		_putchar('-');
+		num = -num;
+		n = -n;
+		last = -last;
+		i++;
 	}
-
-	while (str[length] != '\0')
-		length++;
-
-	if (precision >= 0 && precision < length)
-		length = precision;
-
-	if (width > length)
+	if (num > 0)
 	{
-		if (flags & F_MINUS)
+		while (num / 10 != 0)
 		{
-			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			return (width);
+			exp = exp * 10;
+			num = num / 10;
 		}
-		else
+		num = n;
+		while (exp > 0)
 		{
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			write(1, &str[0], length);
-			return (width);
+			digit = num / exp;
+			_putchar(digit + '0');
+			num = num - (digit * exp);
+			exp = exp / 10;
+			i++;
 		}
 	}
+	_putchar(last + '0');
 
-	return (write(1, str, length));
+	return (i);
 }
 
 
-/** PRINT PERCENT SIGN **/
-
+#include "main.h"
 /**
- * print_percent - Print a percent sign
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of char
+ * print_string - print a string.
+ * @val: argumen t.
+ * Return: the length of the string.
  */
 
-int print_percent(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_string(va_list val)
 {
-	UNUSED(types);
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	return (write(1, "%%", 1));
+	char *s;
+	int i, len;
+
+	s = va_arg(val, char *);
+	if (s == NULL)
+	{
+		s = "(null)";
+		len = _strlen(s);
+		for (i = 0; i < len; i++)
+			_putchar(s[i]);
+		return (len);
+	}
+	else
+	{
+		len = _strlen(s);
+		for (i = 0; i < len; i++)
+			_putchar(s[i]);
+		return (len);
+	}
 }
 
-
-/** PRINT INT **/
-
+#include "main.h"
 /**
- * print_int - Print int
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of char
+ * _strlen -  the lenght of a string.
+ * @s: Type char pointer
+ * Return: c
  */
-
-int print_int(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int _strlen(char *s)
 {
-	int i = BUFF_SIZE - 2;
-	int is_negative = 0;
-	long int n = va_arg(types, long int);
-	unsigned long int num;
+	int c;
 
-	n = convert_size_number(n, size);
+	for (c = 0; s[c] != 0; c++)
+		;
+	return (c);
 
-	if (n == 0)
-		buffer[i--] = '0';
+}
+/**
+ * _strlenc - Strlen function
+ * @s: Type char pointer
+ * Return: c
+ */
+int _strlenc(const char *s)
+{
+	int c;
 
-	buffer[BUFF_SIZE - 1] = '\0';
-	num = (unsigned long int)n;
-
-	if (n < 0)
-	{
-		num = (unsigned long int)((-1) * n);
-		is_negative = 1;
-	}
-
-	while (num > 0)
-	{
-		buffer[i--] = (num % 10) + '0';
-		num /= 10;
-	}
-
-	i++;
-
-	return (write_number(is_negative, i, buffer, flags, width, precision, size));
+	for (c = 0; s[c] != 0; c++)
+		;
+	return (c);
 }
 
-/** PRINT BINARY **/
+#include "main.h"
 
 /**
- * print_binary -  To Prints an unsigned number
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Numbers of char
+ * print_srev -  prints a str in reverse
+ * @args: type struct va_arg 
+ *
+ * Return: string
  */
-
-int print_binary(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_srev(va_list args)
 {
-	unsigned int n, m, i, sum;
-	unsigned int a[32];
-	int count;
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
+	char *s = va_arg(args, char*);
+	int i;
+	int j = 0;
 
-	n = va_arg(types, unsigned int);
-	m = 2147483648; /* (2 ^ 31) */
-	a[0] = n / m;
-	for (i = 1; i < 32; i++)
+	if (s == NULL)
+		s = "(null)";
+	while (s[j] != '\0')
+		j++;
+	for (i = j - 1; i >= 0; i--)
+		_putchar(s[i]);
+	return (j);
+}
+
+#include "main.h"
+/**
+ * print_rot13 - print str to ROT13
+ * @args: type struct va_arg
+ * Return: counter
+ *
+ */
+int print_rot13(va_list args)
+{
+	int i, j, counter = 0;
+	int k = 0;
+	char *s = va_arg(args, char*);
+	char alpha[] = {"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+	char beta[] = {"nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"};
+
+	if (s == NULL)
+		s = "(null)";
+	for (i = 0; s[i]; i++)
 	{
-		m /= 2;
-		a[i] = (n / m) % 2;
-	}
-	for (i = 0, sum = 0, count = 0; i < 32; i++)
-	{
-		sum += a[i];
-		if (sum || i == 31)
+		k = 0;
+		for (j = 0; alpha[j] && !k; j++)
 		{
-			char z = '0' + a[i];
-
-			write(1, &z, 1);
-			count++;
+			if (s[i] == alpha[j])
+			{
+				_putchar(beta[j]);
+				counter++;
+				k = 1;
+			}
+		}
+		if (!k)
+		{
+			_putchar(s[i]);
+			counter++;
 		}
 	}
-	return (count);
+	return (counter);
 }

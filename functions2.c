@@ -1,196 +1,160 @@
 #include "main.h"
-
-/** PRINT POINTER **/
-
 /**
- * print_pointer - Prints the value of a pointer variable
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of char.
+ * print_exclusive_string - print exclusuives string
+ * @val: argumen t
+ * Return: the length of a string
  */
 
-int print_pointer(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_exclusive_string(va_list val)
 {
-	char extra_c = 0, padd = ' ';
-	int ind = BUFF_SIZE - 2, length = 2, padd_start = 1; /* length=2, for '0x' */
-	unsigned long num_addrs;
-	char map_to[] = "0123456789abcdef";
-	void *addrs = va_arg(types, void *);
+	char *s;
+	int i, len = 0;
+	int cast;
 
-	UNUSED(width);
-	UNUSED(size);
-
-	if (addrs == NULL)
-		return (write(1, "(nil)", 5));
-
-	buffer[BUFF_SIZE - 1] = '\0';
-	UNUSED(precision);
-
-	num_addrs = (unsigned long)addrs;
-
-	while (num_addrs > 0)
+	s = va_arg(val, char *);
+	if (s == NULL)
+		s = "(null)";
+	for (i = 0; s[i] != '\0'; i++)
 	{
-		buffer[ind--] = map_to[num_addrs % 16];
-		num_addrs /= 16;
-		length++;
-	}
-
-	if ((flags & F_ZERO) && !(flags & F_MINUS))
-		padd = '0';
-	if (flags & F_PLUS)
-		extra_c = '+', length++;
-	else if (flags & F_SPACE)
-		extra_c = ' ', length++;
-
-	ind++;
-
-	/*return (write(1, &buffer[i], BUFF_SIZE - i - 1));*/
-	return (write_pointer(buffer, ind, length,
-		width, flags, padd, extra_c, padd_start));
-}
-
-/** PRINT NON PRINTABLE **/
-
-/**
- * print_non_printable - Prints ascii codes in hexa of non printable chars
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of char
- */
-
-int print_non_printable(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	int i = 0, offset = 0;
-	char *str = va_arg(types, char *);
-
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-
-	if (str == NULL)
-		return (write(1, "(null)", 6));
-
-	while (str[i] != '\0')
-	{
-		if (is_printable(str[i]))
-			buffer[i + offset] = str[i];
-		else
-			offset += append_hexa_code(str[i], buffer, i + offset);
-
-		i++;
-	}
-
-	buffer[i + offset] = '\0';
-
-	return (write(1, buffer, i + offset));
-}
-
-/** PRINT REVERSE **/
-
-/**
- * print_reverse - Prints reverse string.
- * @types: argument lists
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Numbers of char
- */
-
-int print_reverse(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	char *str;
-	int i, count = 0;
-
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(size);
-
-	str = va_arg(types, char *);
-
-	if (str == NULL)
-	{
-		UNUSED(precision);
-
-		str = ")Null(";
-	}
-	for (i = 0; str[i]; i++)
-		;
-
-	for (i = i - 1; i >= 0; i--)
-	{
-		char z = str[i];
-
-		write(1, &z, 1);
-		count++;
-	}
-	return (count);
-}
-
-/** PRINT A STRING IN ROT13 **/
-
-/**
- * print_rot13string - Print a string in rot13.
- * @types: arguments list
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Numbers of chars printed
- */
-
-int print_rot13string(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	char x;
-	char *str;
-	unsigned int i, j;
-	int count = 0;
-	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
-
-	str = va_arg(types, char *);
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-
-	if (str == NULL)
-		str = "(AHYY)";
-	for (i = 0; str[i]; i++)
-	{
-		for (j = 0; in[j]; j++)
+		if (s[i] < 32 || s[i] >= 127)
 		{
-			if (in[j] == str[i])
+			_putchar('\\');
+			_putchar('x');
+			len = len + 2;
+			cast = s[i];
+			if (cast < 16)
 			{
-				x = out[j];
-				write(1, &x, 1);
-				count++;
-				break;
+				_putchar('0');
+				len++;
 			}
+			len = len + print_HEX_aux(cast);
 		}
-		if (!in[j])
+		else
 		{
-			x = str[i];
-			write(1, &x, 1);
-			count++;
+			_putchar(s[i]);
+			len++;
 		}
 	}
-	return (count);
+	return (len);
+}
+
+#include "main.h"
+
+/**
+ * print_bin - prints binary number
+ * @val: arguments
+ * Return: 1 (always)
+ */
+int print_bin(va_list val)
+{
+	int flag = 0;
+	int cont = 0;
+	int i, a = 1, b;
+	unsigned int num = va_arg(val, unsigned int);
+	unsigned int p;
+
+	for (i = 0; i < 32; i++)
+	{
+		p = ((a << (31 - i)) & num);
+		if (p >> (31 - i))
+			flag = 1;
+		if (flag)
+		{
+			b = p >> (31 - i);
+			_putchar(b + 48);
+			cont++;
+		}
+	}
+	if (cont == 0)
+	{
+		cont++;
+		_putchar('0');
+	}
+	return (cont);
+}
+
+#include "main.h"
+
+/**
+ * print_HEX_aux - prints a hexgecimal number
+ * @num: number to be printed
+ * Return: counter
+ */
+int print_HEX_aux(unsigned int num)
+{
+	int i;
+	int *array;
+	int counter = 0;
+	unsigned int temp = num;
+
+	while (num / 16 != 0)
+	{
+		num /= 16;
+		counter++;
+	}
+	counter++;
+	array = malloc(counter * sizeof(int));
+
+	for (i = 0; i < counter; i++)
+	{
+		array[i] = temp % 16;
+		temp /= 16;
+	}
+	for (i = counter - 1; i >= 0; i--)
+	{
+		if (array[i] > 9)
+			array[i] = array[i] + 7;
+		_putchar(array[i] + '0');
+	}
+	free(array);
+	return (counter);
+}
+
+#include "main.h"
+
+/**
+ * print_HEX - prints a hexgecimal number
+ * @val: argument
+ * Return: counter
+ */
+int print_HEX(va_list val)
+{
+	int i;
+	int *array;
+	int counter = 0;
+	unsigned int num = va_arg(val, unsigned int);
+	unsigned int temp = num;
+
+	while (num / 16 != 0)
+	{
+		num /= 16;
+		counter++;
+	}
+	counter++;
+	array = malloc(counter * sizeof(int));
+
+	for (i = 0; i < counter; i++)
+	{
+		array[i] = temp % 16;
+		temp /= 16;
+	}
+	for (i = counter - 1; i >= 0; i--)
+	{
+		if (array[i] > 9)
+			array[i] = array[i] + 7;
+		_putchar(array[i] + '0');
+	}
+	free(array);
+	return (counter);
+}
+
+#include "main.h"
+/**
+ * print_37 - prints the char 37
+ * Return: 1 (always)
+ */
+int print_37(void)
+{
+	_putchar(37);
+	return (1);
 }
