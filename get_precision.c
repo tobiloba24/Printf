@@ -2,9 +2,9 @@
 
 /**
  * get_precision - It Calculates the precision for printing
- * @format: the Formatted string in which to print the arguments
+ * @format: Formatted string in which to print the arguments
  * @i: List of arguments to be printed.
- * @list:the list of arguments.
+ * @list: list of arguments.
  *
  * Return: Precision.
  */
