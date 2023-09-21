@@ -56,7 +56,7 @@ int is_digit(char c)
  * @num: Number to be casted.
  * @size: Number indicating the type to be casted.
  *
- * Return: value of num
+ * Return: Casted value of num
  */
 long int convert_size_number(long int num, int size)
 {
@@ -69,7 +69,7 @@ long int convert_size_number(long int num, int size)
 }
 
 /**
- * convert_size_unsgnd - To Cast a number of a specified size
+ * convert_size_unsgnd - Casts a number to the specified size
  * @num: Number to be casted
  * @size: Number indicating the type to be casted
  *
